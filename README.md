@@ -34,41 +34,64 @@ let uvc = UVC()
 let cameras = uvc.enumerateDevices()
 print( cameras.map { $0.properties as CFDictionary } )
 
+
+// ...
+// select camera via UI or w/e
+// ...
+
 let camera = cameras[0]
+
 
 /*
   this will give you a list of the selectors of all the controls on *your* particular
   camera, some of which may be missing from the control cnstuction enumeration
   I will probably add the rest soon.
 */
+
+
 let pucontrols = uvc.enumerateControls(uvc: camera, target: camera.punitID, range: 0x01...0x13 )
 let itcontrols = uvc.enumerateControls(uvc: camera, target: camera.itermID, range: 0x01...0x14 )
+
 print(pucontrols)
 print(itcontrols)
+
 
 /*
   this enumeration will only return controls that I have implemented the map for in
   the UVC constructIntegerControl functions (see UVC.swift)
  */
+ 
 let controls = uvc.getCameraControls ( camera: camera )
 
 for control in controls {
   debugPrint(control)
 }
 
+
 // set white balance auto on
+
 if let white_bal_auto = controls.first(where: { $0.tag == .white_bal_temp_auto }) {
+  
   white_bal_auto.set(value: 1)
 }
 
+
+
 // set brightness
+
 if let brightness = controls.first(where: { $0.tag == .brightness }) {
+  
   brightness.set(value: 0)
 }
 
+
+
 // read contrast
+
 if let contrast = controls.first(where: { $0.tag == .contrast }) {
+  
   if let value = contrast.current() {
+    
     print(value)
   }
 }
