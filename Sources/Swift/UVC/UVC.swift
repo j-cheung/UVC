@@ -251,7 +251,7 @@ public struct UVC {
   
   struct CameraTerminal { // syntactic sugar for API
 
-    func constructIntegeControl(index: Int, unitID: UInt16, interface: USB.COMObject<IOUSBInterfaceInterface>) -> UVCIntegerControlInterface? {
+    func constructIntegerControl(index: Int, unitID: UInt16, interface: USB.COMObject<IOUSBInterfaceInterface>) -> UVCIntegerControlInterface? {
       
       // convenience, save typing and make the below easier to read
       // everything except name and type is already determined, so why tyoe it?
@@ -303,7 +303,7 @@ public struct UVC {
     let itcontrols = enumerateControls(uvc: camera, target: camera.itermID, range: 0x01...0x14 )
 
     for index in itcontrols {
-      if let obj = inputterm.constructIntegeControl(index: index, unitID: camera.itermID, interface: camera.interface) {
+      if let obj = inputterm.constructIntegerControl(index: index, unitID: camera.itermID, interface: camera.interface) {
         controls += [obj]
       }
     }
