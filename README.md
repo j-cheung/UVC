@@ -6,16 +6,16 @@ USB via IOKit and its *lovely* **COM** implementation.
 
 The only controls currently implemented are the ones I have to test, see below for list output.
 
-All controls are modelled as Int at the interface, they are properly signed, so
-e.g. we can set brightness to -12 and not have to worry about it, sonversion to and from
-various widths of Uint and Int is done under the hood. You can't crash it by trying to set
+All controls are modeled as Int at the interface, they are properly signed, so
+e.g. we can set brightness to -12 and not have to worry about it, conversion to and from
+various widths of UInt and Int is done under the hood. You can't crash it by trying to set
 a an underlying UInt8 control to -32,768 because it will clamp the range to 0.
 
 Your front end code will need to know that, e.g. Auto controls are a bool, Powerline Frequency is an option or 
 that Auto Exposure mode is a bitmap, and translate them to and from Int accordingly.
 
 You probably can cause problems by setting values outside of the control's GET_MIN and GET_MAX
-values, but these should theoretically just cause pipe stall errors, which yu aren't going to see
+values, but these should theoretically just cause pipe stall errors, which you aren't going to see
 because at the moment, error checking isn't really a thing.
 
 This is just bare bones, get up and running swift code for messing with UVC.
