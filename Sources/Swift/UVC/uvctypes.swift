@@ -12,6 +12,7 @@ public protocol ControlInterface {
   var selector  : UVC.Selector      { get }
   var uvctype   : UVC.ControlType   { get }
   var uvcfamily : UVC.ControlFamily { get }
+  var tag       : UVC.Tag           { get }
 }
 
 
@@ -142,15 +143,15 @@ extension UVC {
     public let usb       : UVC.ControlRequestInterface
     public let uvctype   : UVC.ControlType
     public let uvcfamily : UVC.ControlFamily
+    public let tag       : UVC.Tag
     
-    
-    public init ( name: String, interface: USB.COMObject<IOUSBInterfaceInterface>, selector: UVC.Selector, type: UVC.ControlType, family: UVC.ControlFamily ) {
+    public init ( name: String, interface: USB.COMObject<IOUSBInterfaceInterface>, selector: UVC.Selector, type: UVC.ControlType, family: UVC.ControlFamily, tag: UVC.Tag ) {
       self.name      = name
       self.selector  = selector
       self.usb       = UVC.ControlRequestInterface(usb: interface)
       self.uvctype   = type
       self.uvcfamily = family
-      
+      self.tag       = tag 
     }
     
     

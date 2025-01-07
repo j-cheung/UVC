@@ -105,6 +105,55 @@ extension UVC {
 
   
     /*
+      added because I wnated to have a global tag, makes control construction somewhat
+      nosy, but eg, will be easier to find them later.
+    */
+    public enum Tag {
+      // processing unit
+      case backlight_comp
+      case brightness
+      case contrast
+      case gain
+      case power_line_freq
+      case hue
+      case saturation
+      case sharpness
+      case gamma
+      case white_bal_temp
+      case white_bal_temp_auto
+      case white_bal_component
+      case white_bal_component_auto
+      case digi_mult
+      case digi_mult_limit
+      case hue_auto
+      case analogue_vid_std
+      case ablogue_lock
+      case contrast_auto            
+      
+      // inout terminal
+      case scan_mode
+      case ae_mode
+      case ae_priority
+      case exp_time_abs
+      case exp_time_rel
+      case focus_abs
+      case focus_rel
+      case focus_auto
+      case iris_abs
+      case iris_rel
+      case zoom_abs
+      case zoom_rel
+      case pantilt_abs
+      case pantilt_rel
+      case roll_abs
+      case roll_rel
+      case privacy
+      case focus_simple
+      case window
+      case roi
+    }
+  
+    /*
       these ones tag the control so we can identify them by family
       and type later as well as their selector
     */

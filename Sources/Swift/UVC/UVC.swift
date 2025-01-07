@@ -213,13 +213,14 @@ public struct UVC {
       
       // convenience, save typing and make the below easier to read
       // everything except name and type is already determined, so why tyoe it?
-      func control<T: BinaryInteger>(name: String, type: T.Type, uvctype: UVC.ControlType) -> UVCIntegerControlInterface {
+      func control<T: BinaryInteger>(name: String, type: T.Type, uvctype: UVC.ControlType, tag: UVC.Tag) -> UVCIntegerControlInterface {
         UVC.IntegerControl<T> (
           name     : name,
           interface: interface,
-          selector : UVC.Selector(index: UInt16(index),target: unitID),
+          selector : UVC.Selector(index: UInt16(index), target: unitID),
           type     : uvctype,
-          family   : .processing
+          family   : .camera,
+          tag      : tag
         )
       }
       
@@ -228,17 +229,17 @@ public struct UVC {
       
       switch selindex {
         
-        case .backlight_comp      : return control ( name: "Backlight Compensation", type: UInt16.self, uvctype: .int    )
-        case .brightness          : return control ( name: "Brightness",             type: Int16.self , uvctype: .int    )
-        case .contrast            : return control ( name: "Contrast",               type: UInt16.self, uvctype: .int    )
-        case .gain                : return control ( name: "Gain",                   type: UInt16.self, uvctype: .int    )
-        case .power_line_freq     : return control ( name: "Powerline Frequency",    type: UInt8.self,  uvctype: .option )
-        case .hue                 : return control ( name: "Hue",                    type: Int16.self , uvctype: .int    )
-        case .saturation          : return control ( name: "Saturation",             type: UInt16.self, uvctype: .int    )
-        case .sharpness           : return control ( name: "Sharpness",              type: UInt16.self, uvctype: .int    )
-        case .gamma               : return control ( name: "Gamma",                  type: UInt16.self, uvctype: .int    )
-        case .white_bal_temp      : return control ( name: "White Balance Temp",     type: UInt16.self, uvctype: .int    )
-        case .white_bal_temp_auto : return control ( name: "White Bal Temp Auto",    type: UInt8.self , uvctype: .bool   )
+        case .backlight_comp      : return control ( name: "Backlight Compensation", type: UInt16.self, uvctype: .int    , tag: .backlight_comp     )
+        case .brightness          : return control ( name: "Brightness",             type: Int16.self , uvctype: .int    , tag: .brightness         )
+        case .contrast            : return control ( name: "Contrast",               type: UInt16.self, uvctype: .int    , tag: .contrast           )
+        case .gain                : return control ( name: "Gain",                   type: UInt16.self, uvctype: .int    , tag: .gain               )
+        case .power_line_freq     : return control ( name: "Powerline Frequency",    type: UInt8.self,  uvctype: .option , tag: .power_line_freq    )
+        case .hue                 : return control ( name: "Hue",                    type: Int16.self , uvctype: .int    , tag: .hue                )
+        case .saturation          : return control ( name: "Saturation",             type: UInt16.self, uvctype: .int    , tag: .saturation         )
+        case .sharpness           : return control ( name: "Sharpness",              type: UInt16.self, uvctype: .int    , tag: .sharpness          )
+        case .gamma               : return control ( name: "Gamma",                  type: UInt16.self, uvctype: .int    , tag: .gamma              )
+        case .white_bal_temp      : return control ( name: "White Balance Temp",     type: UInt16.self, uvctype: .int    , tag: .white_bal_temp     )
+        case .white_bal_temp_auto : return control ( name: "White Bal Temp Auto",    type: UInt8.self , uvctype: .bool   , tag: .white_bal_temp_auto)
         
         
         default: return nil
@@ -254,13 +255,14 @@ public struct UVC {
       
       // convenience, save typing and make the below easier to read
       // everything except name and type is already determined, so why tyoe it?
-      func control<T: BinaryInteger>(name: String, type: T.Type, uvctype: UVC.ControlType) -> UVCIntegerControlInterface {
+      func control<T: BinaryInteger>(name: String, type: T.Type, uvctype: UVC.ControlType, tag: UVC.Tag) -> UVCIntegerControlInterface {
         UVC.IntegerControl<T> (
           name     : name,
           interface: interface,
           selector : UVC.Selector(index: UInt16(index), target: unitID),
           type     : uvctype,
-          family   : .camera
+          family   : .camera,
+          tag      : tag
         )
       }
       
@@ -269,9 +271,9 @@ public struct UVC {
       
       switch selindex {
         
-        case .ae_mode      : return control ( name: "AE Mode",       type: UInt8.self , uvctype: .bitmap )
-        case .ae_priority  : return control ( name: "AE Priorty",    type: UInt8.self , uvctype: .bool   )
-        case .exp_time_abs : return control ( name: "Exposure Time", type: UInt32.self, uvctype: .int    )
+        case .ae_mode      : return control ( name: "AE Mode",       type: UInt8.self , uvctype: .bitmap, tag: .ae_mode      )
+        case .ae_priority  : return control ( name: "AE Priorty",    type: UInt8.self , uvctype: .bool  , tag: .ae_priority  )
+        case .exp_time_abs : return control ( name: "Exposure Time", type: UInt32.self, uvctype: .int   , tag: .exp_time_abs )
         
         default : return nil
       }
