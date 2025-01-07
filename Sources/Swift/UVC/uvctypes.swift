@@ -69,12 +69,12 @@ extension UVC {
     let itd        : VC_Input_Terminal_Descriptor
     let pud        : VC_Processing_Unit_Descriptor
     
-    let properties : [String: Any]
-    let device     : USB.COMObject<IOUSBDeviceInterface>
-    let interface  : USB.COMObject<IOUSBInterfaceInterface>
+    public let properties : [String: Any]
+    public let device     : USB.COMObject<IOUSBDeviceInterface>
+    public let interface  : USB.COMObject<IOUSBInterfaceInterface>
     
-    let punitID    : UInt16
-    let itermID    : UInt16
+    public let punitID    : UInt16
+    public let itermID    : UInt16
     
     
     init(pud : VC_Processing_Unit_Descriptor, itd: VC_Input_Terminal_Descriptor, interface: USB.COMObject<IOUSBInterfaceInterface>, device: USB.COMObject<IOUSBDeviceInterface>, properties: [String: Any] ) {

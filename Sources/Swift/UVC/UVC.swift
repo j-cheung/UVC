@@ -19,6 +19,8 @@ import Descriptors
 
 
 public struct UVC {
+    
+  public init() {}
   
     let usb        = USB() // for doing USB thangz
     
