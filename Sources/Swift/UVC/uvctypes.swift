@@ -98,10 +98,10 @@ extension UVC {
   */
   public struct Selector {
     
-    let index  : UInt16
-    let target : UInt16
+    public let index  : UInt16
+    public let target : UInt16
     
-    init ( index: UInt16, target: UInt16) {
+    public init ( index: UInt16, target: UInt16) {
       self.index  = index
       self.target = target
     }
