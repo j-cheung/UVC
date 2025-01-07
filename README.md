@@ -1,3 +1,4 @@
 # UVC
 
-A description of this package.
+Development code for working with UVC compliant webacams.
+ 
