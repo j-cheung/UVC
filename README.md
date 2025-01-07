@@ -63,8 +63,20 @@ if let brightness = controls.first(where: { $0.tag == .brightness }) {
   brightness.set(value: 0)
 }
 
+// read contrast
+if let contrast = controls.first(where: { $0.tag == .contrast }) {
+  if let value = contrast.current() {
+    print(value)
+  }
+}
 
-/*
+/* 
+  see uvcconsts.swift for full list of controls and the bottom of UVC.swift for the 
+  for the ones currently mapped
+*/
+
+
+/*  Program output :
 
 [{
     AppleUSBAlternateServiceRegistryID = 4294968143;
