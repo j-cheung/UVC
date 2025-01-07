@@ -177,7 +177,7 @@ public struct UVC {
       of it's processing unit controls that way, so, we probe them by sending a GET_INF
       request. If this fails, that control is not there. Probably.
     */
-    func enumerateControls(uvc: UVC.Camera, target: UInt16, range: ClosedRange<Int> ) -> [Int] {
+    public func enumerateControls(uvc: UVC.Camera, target: UInt16, range: ClosedRange<Int> ) -> [Int] {
       
       var validcontrols : [Int] = []
 
