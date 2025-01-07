@@ -20,6 +20,9 @@ because at the moment, error checking isn't really a thing.
 
 This is just bare bones, get up and running swift code for messing with UVC.
 
+**NB that you don't have to have the device or interface open in order to read or set the values
+that will only be necessary of you need to subscribe to the interrupt pipe, which in any case, I 
+haven't implmented yet**
  
 ```swift
 
