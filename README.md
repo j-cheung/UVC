@@ -34,11 +34,6 @@ let uvc = UVC()
 let cameras = uvc.enumerateDevices()
 print( cameras.map { $0.properties as CFDictionary } )
 
-
-// ...
-// select camera via UI or w/e
-// ...
-
 let camera = cameras[0]
 
 
@@ -48,24 +43,24 @@ let camera = cameras[0]
   I will probably add the rest soon.
 */
 
-
 let pucontrols = uvc.enumerateControls(uvc: camera, target: camera.punitID, range: 0x01...0x13 )
 let itcontrols = uvc.enumerateControls(uvc: camera, target: camera.itermID, range: 0x01...0x14 )
 
-print(pucontrols)
-print(itcontrols)
-
+print( pucontrols.map { String(format: "%02x", $0) }.joined(separator: ", ") )
+print( itcontrols.map { String(format: "%02x", $0) }.joined(separator: ", ") )
 
 /*
   this enumeration will only return controls that I have implemented the map for in
   the UVC constructIntegerControl functions (see UVC.swift)
  */
- 
+
 let controls = uvc.getCameraControls ( camera: camera )
 
 for control in controls {
+  
   debugPrint(control)
 }
+
 
 
 // set white balance auto on
@@ -91,15 +86,9 @@ if let brightness = controls.first(where: { $0.tag == .brightness }) {
 if let contrast = controls.first(where: { $0.tag == .contrast }) {
   
   if let value = contrast.current() {
-    
     print(value)
   }
 }
-
-/* 
-  see uvcconsts.swift for full list of controls and the bottom of UVC.swift for the 
-  for the ones currently mapped
-*/
 
 
 /*  Program output :
@@ -144,8 +133,8 @@ if let contrast = controls.first(where: { $0.tag == .contrast }) {
     "non-removable" = no;
     sessionID = 1826016032;
 }]
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-[2, 3, 4]
+01, 02, 03, 04, 05, 06, 07, 08, 09, 0a, 0b
+02, 03, 04
 -> Backlight Compensation 
 fam: camera, index: 01, type: int 
 resolution: 1 min:  0, max: 2, default: 1, current: 1 
@@ -215,5 +204,8 @@ inf : 00000011
 fam: camera, index: 04, type: int 
 resolution: 1 min:  1, max: 5000, default: 157, current: 376 
 inf : 00001111
+
+32
+
 */
 ```
