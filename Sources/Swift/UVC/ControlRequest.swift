@@ -60,6 +60,8 @@ extension UVC {
         device and kUSBInterface indicates we are talking to an interface (in this case the UVC
         control interface in our USB.COMObject<IOUSBInterfaceInterface>. Building these is mildly
         vexing so we use a helper.
+       
+        see: https://www.beyondlogic.org/usbnutshell/usb6.shtml for more detail
       */
       
       let requestType = USB.makebmRequestType(direction: kUSBIn, type: kUSBClass, recipient: kUSBInterface)
