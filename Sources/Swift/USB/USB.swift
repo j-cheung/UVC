@@ -164,18 +164,16 @@ public struct USB {
   }
 
 
+  /*
+    grab a string description of a mach (ie IOKit) kern_return_t
+  */
   
-  // OH THANK GOD! been looking for one of these for ages!
-  // https://stackoverflow.com/questions/3887309/mapping-iokit-ioreturn-error-code-to-string
-  
-  public static func machErrorDescription (_ kr: kern_return_t) -> String {
-    if let cStr = mach_error_string(kr) {
-      return String (cString: cStr)
-    }
-    else {
-      return "Unknown kernel error \(kr)"
-    }
+  public static func machErrorString (_ kr: kern_return_t) -> String {
+    
+    if let cStr = mach_error_string(kr) { return String (cString: cStr)      }
+    else                                { return "unk : kern_return_t \(kr)" }
   }
+  
   
   /*
    #defined as macro in C header so not imported to swift
