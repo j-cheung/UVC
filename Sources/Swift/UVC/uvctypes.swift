@@ -37,11 +37,11 @@ public protocol UVCIntegerControlInterface : ControlInterface {
   func current() -> Int?
   func set(value: Int)
   
-  var  inf       : UInt8? { mutating get }
-  var  min       : Int?   { mutating get }
-  var  max       : Int?   { mutating get }
-  var `default`  : Int?   { mutating get }
-  var resolution : Int?   { mutating get }
+  var  inf       : Int?  { mutating get }
+  var  min       : Int?  { mutating get }
+  var  max       : Int?  { mutating get }
+  var `default`  : Int?  { mutating get }
+  var resolution : Int?  { mutating get }
 }
 
 
@@ -220,13 +220,13 @@ extension UVC {
       types right just to be casual about it.
     */
     
-    public lazy var inf : UInt8? = {
+    public lazy var inf : Int? = {
       if let value : UInt8 = usb.inRequest (
         request  : .GET_INF,
-        selector : UVC.Selector(index: UInt16(selector.index), target: selector.target)
+        selector : UVC.Selector(index: selector.index, target: selector.target)
       )
       {
-        return value
+        return Int(value)
       }
       return nil
     }()
