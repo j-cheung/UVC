@@ -37,11 +37,11 @@ public protocol UVCIntegerControlInterface : ControlInterface {
   func current() -> Int?
   func set(value: Int)
   
-  var  inf       : Int?  { mutating get }
-  var  min       : Int?  { mutating get }
-  var  max       : Int?  { mutating get }
-  var `default`  : Int?  { mutating get }
-  var resolution : Int?  { mutating get }
+  var  inf       : UInt8? { mutating get }
+  var  min       : Int?   { mutating get }
+  var  max       : Int?   { mutating get }
+  var `default`  : Int?   { mutating get }
+  var resolution : Int?   { mutating get }
 }
 
 
@@ -220,13 +220,13 @@ extension UVC {
       types right just to be casual about it.
     */
     
-    public lazy var inf : Int? = {
+    public lazy var inf : UInt8? = {
       if let value : UInt8 = usb.inRequest (
         request  : .GET_INF,
         selector : UVC.Selector(index: selector.index, target: selector.target)
       )
       {
-        return Int(value)
+        return value
       }
       return nil
     }()
@@ -254,9 +254,9 @@ extension UVC.IntegerControl : CustomDebugStringConvertible {
     let cur  = (curv != nil) ? String(curv!) : "_"
     
     return
-      "-> \(self.name) \nfam: \(self.uvcfamily), index: \(String(format: "%02x", self.selector.index)), type: \(self.uvctype) \n" +
-      "resolution: \(res) min:  \(min), max: \(max), default: \(def), current: \(cur) \n" +
-      "inf : \(String(repeating: "0", count: inf.leadingZeroBitCount))\(String(inf, radix: 2))\n"
+      "-> \(self.name) \nfam: \(self.uvcfamily), index: 0x\(String(format: "%02x", self.selector.index)), type: \(self.uvctype) \n" +
+      "resolution: \(res), min: \(min), max: \(max), default: \(def), current: \(cur) \n" +
+      "inf : 0b\(String(repeating: "0", count: inf.leadingZeroBitCount))\(String(inf, radix: 2))\n"
   }
 }
 
