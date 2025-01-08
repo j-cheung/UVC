@@ -11,6 +11,11 @@ extension UVC {
     let usb : USB.COMObject<IOUSBInterfaceInterface>
     
     
+    public init (usb: USB.COMObject<IOUSBInterfaceInterface> ) {
+      self.usb = usb
+    }
+    
+    
     public func inRequest<T> ( request: UVC.RequestCode, selector: UVC.Selector ) -> T? {
       
       let data = UnsafeMutablePointer<T>.allocate(capacity: 1)
@@ -22,7 +27,7 @@ extension UVC {
       var request = IOUSBDevRequest (
           bmRequestType: requestType,
           bRequest     : request.rawValue,
-          wValue       : selector.index << 8,
+          wValue       : selector.index  << 8,
           wIndex       : selector.target << 8,
           wLength      : UInt16( MemoryLayout<T>.size ),
           pData        : data,
@@ -57,7 +62,7 @@ extension UVC {
         var request = IOUSBDevRequest (
             bmRequestType: requestType,
             bRequest     : request.rawValue,
-            wValue       : selector.index << 8,
+            wValue       : selector.index  << 8,
             wIndex       : selector.target << 8,
             wLength      : UInt16( MemoryLayout<T>.size ),
             pData        : data,
@@ -65,6 +70,7 @@ extension UVC {
         )
 
         let kr = usb.instance.ControlRequest(usb.pointer, 0, &request)
+        
         if kr != 0 {
           //print( USB.machErrorDescription(kr) )
         }
