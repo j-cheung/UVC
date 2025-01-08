@@ -12,9 +12,10 @@ extension UVC {
   
     
     /*
-      for identifying the control interface and finding the righr descriptors
+      for identifying the control interface and finding the right descriptors
       see section 3, Descriptors
     */
+  
     struct InterfaceClass {
       static let CC_VIDEO        : UInt16 = 0xe
       static let SC_VIDEOCONTROL : UInt16 = 0x01
@@ -51,6 +52,8 @@ extension UVC {
       When we want to talk to a control, we address it by these numbers,
       these are defined in Appendix A
     */
+  
+  
     public enum PUControlIndex : Int {
                                                 
       case backlight_comp           = 0x01
@@ -79,6 +82,7 @@ extension UVC {
      Camera terminal/Input terminal control selectors,
      ibid
     */
+  
     public enum CTControlIndex : Int {
 
       case scan_mode    = 0x01
@@ -105,11 +109,14 @@ extension UVC {
 
   
     /*
-      added because I wnated to have a global tag, makes control construction somewhat
-      nosy, but eg, will be easier to find them later.
+      added because I wanted to have a global tag, makes control construction somewhat
+      noisy, but e.g, will be easier to find them later.
     */
+  
     public enum Tag {
+      
       // processing unit
+      
       case backlight_comp
       case brightness
       case contrast
@@ -130,7 +137,8 @@ extension UVC {
       case ablogue_lock
       case contrast_auto            
       
-      // inout terminal
+      // input terminal
+      
       case scan_mode
       case ae_mode
       case ae_priority
@@ -157,6 +165,7 @@ extension UVC {
       these ones tag the control so we can identify them by family
       and type later as well as their selector
     */
+  
     public enum ControlType {
       case bool, bitmap, int, multibyte, option
     }

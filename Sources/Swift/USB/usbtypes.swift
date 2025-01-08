@@ -6,8 +6,8 @@ extension USB {
   
   /*
     IOKit uses COM, but we are importing the C interface, so we call like instance.Method( self_pointer,  ...)
-    these are basically function pointers and will work on any old instance but either way, we usually need these together
-    this ic C based OOP, not C++
+    these are basically function pointers and will work on any old instance but either way, we usually
+    need these together
   */
 
   public struct COMObject<T> {
@@ -19,7 +19,7 @@ extension USB {
 
   /*
     when we call queryInterface, we need 3 params, one of which is a type,
-    we cpould derive the other two from either one, there may be others
+    we can derive the other two from either one, there may be others
     this gives us a nice dot notation at the call site
   */
 
@@ -34,6 +34,7 @@ extension USB {
   
 
   /*
+    wrap IOIterator for slightly nicer call site
     written to avoid an aesthetically unpleasing pattern,
     probably unwise, but we'll see
   */

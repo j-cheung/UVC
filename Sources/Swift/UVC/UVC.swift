@@ -6,7 +6,7 @@ import Descriptors
 
 /*
   code for doing stuff with USB Video Class devices, e.g. web cams, etc.
-  the sepcification for which can be found at
+  the specification for which can be found at
   https://www.usb.org/document-library/video-class-v15-document-set
 
   consts are defined in uvcconsts.swift
@@ -28,30 +28,46 @@ public struct UVC {
     let inputterm  = UVC.CameraTerminal() // just here to save some horrible naming clashes
   
     
+  
     /*
       probe the USB interfaces of the device to find a UVC control interface
       (class == CC_VIDEO, subclass == SC_VIDEOCONTROL)
     */
+  
     func probeInterfaces(device: io_object_t ) -> (interface: USB.COMObject<IOUSBInterfaceInterface>, device: USB.COMObject<IOUSBDeviceInterface>)? {
         
         //TODO: lifecycle management
+      
+        // get a device interface
         guard let deviceInterface = usb.queryInterface( .device, for: device ) else { return nil }
         
+      
+        /*
+         obtain an IOIterator that we can use to loop over the device's interfaces
+         remember the IOIterator objects are just opaque handles (most of this stuff
+         is just typealias to Int32)
+        */
         
         var interface: io_iterator_t = 0
         var request  : IOUSBFindInterfaceRequest = USB.findInterfaceRequest ( iclass: InterfaceClass.CC_VIDEO )
         
         _ = deviceInterface.instance.CreateInterfaceIterator ( deviceInterface.pointer, &request, &interface )
       
+      
         var candidiate = IOIteratorNext(interface)
         
         while candidiate != 0 {
+          
+          
+          // get a COM object representing the actual interface
           
           if let interface = usb.queryInterface(.interface, for: candidiate) {
             
             var iclass : UInt8 = 0
             var isub   : UInt8 = 0
           
+            // and check to see if has the UVC class and sublass for video conrtrols
+            
             _ = interface.instance.GetInterfaceClass(interface.pointer, &iclass)
             _ = interface.instance.GetInterfaceSubClass(interface.pointer, &isub)
             
@@ -89,16 +105,21 @@ public struct UVC {
       )
       else { return (nil, nil) }
       
+      
       // cast to C_VC_Header to read length
+      
       let header = UnsafeMutableRawPointer(descriptor).bindMemory(to: C_VC_Header.self, capacity: 1)
       
       let length = Int(header.pointee.wTotalLength)
       var offset = Int(header.pointee.bLength)
       
+      
       // cast to UInt8 so we can increment correctly as the rest of the chunks are not evenly sized
+      
       let bytes = UnsafeMutableRawPointer(header).bindMemory(to: UInt8.self, capacity: length)
       
       while offset < length {
+        
         let pref = bytes.advanced(by: offset)
         
         // withMemoryRebound allows us to access the bytes pointer as a different type without summoning nasal demons
@@ -110,14 +131,17 @@ public struct UVC {
           if prefix.pointee.bDescriptorSubType == DescriptorSubType.VC_PROCESSING_UNIT {
             
             // rebind and retrieve the processing unit descriptor
+            
             prefix.withMemoryRebound(to: VC_Processing_Unit_Descriptor.self, capacity: 1) { pud in
               vcpud = pud.pointee
             }
           }
           
+          
           if prefix.pointee.bDescriptorSubType == DescriptorSubType.VC_INPUT_TERMINAL {
             
             // rebind and retrieve the camera terminal descriptor
+            
             prefix.withMemoryRebound(to: VC_Input_Terminal_Descriptor.self, capacity: 1) { itd in
               vcitd = itd.pointee
             }
@@ -136,6 +160,7 @@ public struct UVC {
       (see below) and then probe them to see if they are UVC compliant devices, if so retrieve
       the relevant interface descriptors and add them to our collection.
     */
+  
     public func enumerateDevices() -> [UVC.Camera] {
       
       var devices : [UVC.Camera] = []
@@ -172,11 +197,12 @@ public struct UVC {
 
 
     /*
-      So, fun fact, one of the other reasons for pulling the descriptors is that they contain
+      So, fun fact, one of the other reason for pulling the descriptors is that they contain
       a list of valid controls, except, they don't, necessarily. My cam acknowleged almost none
       of it's processing unit controls that way, so, we probe them by sending a GET_INF
       request. If this fails, that control is not there. Probably.
     */
+  
     public func enumerateControls(uvc: UVC.Camera, target: UInt16, range: ClosedRange<Int> ) -> [Int] {
       
       var validcontrols : [Int] = []
@@ -187,6 +213,7 @@ public struct UVC {
         
         // so, I tried sending GET_CUR, but didn't get as many controls, seems some don't wake up
         // or make themselves available until we poke them. Interesting.
+        
         if let _ : UInt8 = endpoint.inRequest (
           request  : .GET_INF,
           selector : UVC.Selector(index: UInt16(i), target: target)
@@ -201,8 +228,8 @@ public struct UVC {
   
   
   /*
-    Here is where we match up our control ids and map them into actual controls (or interafces there to)
-    As of the now, there are just integer conreols, as almost everything can be modelled as an int if you squint
+    Here is where we match up our control ids and map them into actual controls (or interafces there to).
+    As of the now, there are just integer controls, as almost everything can be modelled as an int if you squint
     Also, I have here only included the ones I actually have available to test,
     the full list of types and controls is lurking at the bottom of uvcconsts.swift
   */
@@ -212,7 +239,8 @@ public struct UVC {
     func constructIntegerControl(index: Int, unitID: UInt16, interface: USB.COMObject<IOUSBInterfaceInterface>) -> UVCIntegerControlInterface? {
       
       // convenience, save typing and make the below easier to read
-      // everything except name and type is already determined, so why tyoe it?
+      // everything except name and type is already determined, so why type it?
+      
       func control<T: BinaryInteger>(name: String, type: T.Type, uvctype: UVC.ControlType, tag: UVC.Tag) -> UVCIntegerControlInterface {
         UVC.IntegerControl<T> (
           name     : name,
@@ -254,7 +282,8 @@ public struct UVC {
     func constructIntegerControl(index: Int, unitID: UInt16, interface: USB.COMObject<IOUSBInterfaceInterface>) -> UVCIntegerControlInterface? {
       
       // convenience, save typing and make the below easier to read
-      // everything except name and type is already determined, so why tyoe it?
+      // everything except name and type is already determined, so why type it?
+      
       func control<T: BinaryInteger>(name: String, type: T.Type, uvctype: UVC.ControlType, tag: UVC.Tag) -> UVCIntegerControlInterface {
         UVC.IntegerControl<T> (
           name     : name,
@@ -282,7 +311,7 @@ public struct UVC {
   
   /*
     Hi! FInally the one you've been looking for.
-    gather all the valid controls for ths camera and stuff them in a big collection hidden
+    gather all the valid controls for this camera and stuff them in a big collection hidden
     behind an interface(s)
     
   */

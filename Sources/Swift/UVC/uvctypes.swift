@@ -3,10 +3,11 @@ import Foundation
 import Descriptors
 
 /*
-   common to all tyoes of controls (even the ones that dont exist yet, and probably
+   common to all types of controls (even the ones that dont exist yet, and probably
    won't), see below. And yes, I know we're supposed to call them ...able or what
    the fuck ever for 'pure' swift style, but I am so done with that.
 */
+
 public protocol ControlInterface {
   var name      : String            { get }
   var selector  : UVC.Selector      { get }
@@ -30,6 +31,7 @@ public protocol ControlInterface {
  )
   And no, me neither with the { mutating get } but that's how you do it, as it turns out.
 */
+
 public protocol UVCIntegerControlInterface : ControlInterface {
   
   func current() -> Int?
@@ -61,9 +63,10 @@ extension UVC {
     device    : COM object for the actual device
     interface : COM object for the control interface
    
-    Note the absence of the stream/bulk interface. Don't tuch that,
+    Note the absence of the stream/bulk interface. Don't touch that,
     that's what AVFoundation is for.
   */
+  
   public struct Camera {
     
     // we'll keep these, just in case
@@ -97,6 +100,7 @@ extension UVC {
     and a target specifying which terminal/unit, processing or input
     unit/terminal IDs are found in the descriptors
   */
+  
   public struct Selector {
     
     public let index  : UInt16
@@ -112,13 +116,13 @@ extension UVC {
   
   /*
     So you decided to model everything as an Int?
-    And then you fnd out that some of them are signed?
+    And then you found out that some of them are signed?
     And that's a massive pain in the arse?
    
     Well, here you go.
    
     By making this generic on a BinaryInteger type, our pointers will always be the correct
-    type and size so we we can get signed or unsigned numbers without worrying about it,
+    type and size so we we can get/set signed or unsigned numbers without worrying about it,
     and since the actual integer controls are no larger than Int16, we can represent ALL
     valid values in the range of an Int, the magic is transforming them for which we use
     BinaryInteger.clamping()
@@ -132,9 +136,13 @@ extension UVC {
     But it also won't tell us it just stuffed 0xFF in and went on it's merry way, so be sure
     to check your control's min and max values. Are you listening future me?
    
+    numericCast may wel be a better candiate for this, but it traps, so will have to wait until
+    I have the error handling mapped out later.
+   
     see the definition of .inRequest and .outRequest for more detail of the pointer typing,
     it's fun, I promise
-   */
+  */
+  
   public struct IntegerControl <T: BinaryInteger> : UVCIntegerControlInterface {
 
     
@@ -170,7 +178,7 @@ extension UVC {
 
     
     /*
-      these vaues are set by the hardware and will never change (until they do)
+      these values are set by the hardware and will never change (lol, until they do)
       so we only read them the once.
     */
     public lazy var max : Int? = {
@@ -206,7 +214,12 @@ extension UVC {
     
     
     
-    // slightly different b/c this always returns a single byte may not matter really, but still, carefully does it
+    /*
+      slightly different b/c this always returns a single byte may not matter really,
+      but still, carefully does it, didn't go to all that trouble of getting the pointer
+      types right just to be casual about it.
+    */
+    
     public lazy var inf : UInt8? = {
       if let value : UInt8 = usb.inRequest (
         request  : .GET_INF,

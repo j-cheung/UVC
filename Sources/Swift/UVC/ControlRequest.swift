@@ -15,7 +15,7 @@ extension UVC {
       
       let data = UnsafeMutablePointer<T>.allocate(capacity: 1)
       
-      // not great to do here but lets see it
+      
       let requestType = USB.makebmRequestType(direction: kUSBIn, type: kUSBClass, recipient: kUSBInterface)
 
       
@@ -50,7 +50,7 @@ extension UVC {
       
       return withUnsafeMutablePointer(to: &value) { data -> T? in
         
-        // not great to do here but lets see it
+        
         let requestType = USB.makebmRequestType(direction: kUSBOut, type: kUSBClass, recipient: kUSBInterface)
 
         

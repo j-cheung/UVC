@@ -7,6 +7,7 @@
 /*
 
  structs for USB Video Class descriptors
+ 
  NB : 1) they are incomplete, I am only pulling as much as I need
       
       2) they are defined as C structs because then we can use
@@ -15,7 +16,7 @@
          swift structs just can't be used that way, as of the now.
       
       3) I say 'need' but TBH we probably dont actually need anything other than
-         the unit and terminal IDs as the control collections dont appear to
+         the unit and terminal IDs as the control collections don't appear to
          be accurate on my camera, and I used a different way of enumerating
          the actual controls, go figure.
 */
