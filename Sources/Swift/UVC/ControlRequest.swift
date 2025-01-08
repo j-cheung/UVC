@@ -68,8 +68,8 @@ extension UVC {
       var request = IOUSBDevRequest (
           bmRequestType: requestType,
           bRequest     : request.rawValue,
-          wValue       : selector.index  << 8,
-          wIndex       : selector.target << 8,
+          wValue       : selector.index  << 8,           // wValue and wIndex are UInt16 and require the
+          wIndex       : selector.target << 8,           // control index and interface subclass in their high bits
           wLength      : UInt16( MemoryLayout<T>.size ),
           pData        : data,
           wLenDone     : 0
@@ -95,9 +95,9 @@ extension UVC {
       var value = value  // shadow otherwise it's a let const and we can't get a pointer
       
       /*
-        up in our conreol code, because our control knows, it has passed us a concrete
+        up in our control code, because our control knows, it has passed us a concrete
         BinaryInteger of the correct type. This one is a little more involved because
-        grabbing pointers to actual exisiting variables in swift requires to be more careful
+        grabbing pointers to actual exisiting variables in swift requires us to be more careful
        
         withUnsafeMutablePointer allows us to do it, but it is only temporary, it is only
         permissable to use the pointer inside the closure, so we grab a pointer and do our thing.
@@ -132,7 +132,7 @@ extension UVC {
         
         /*
           arguably, we don't need to return a value from here other than success/fail
-          so this is modeleld fairly badly, I will revisit once I add error propagation
+          so this is modelled fairly badly, I will revisit once I add error propagation
         */
         
         if request.wLenDone > 0 { return data.pointee }
