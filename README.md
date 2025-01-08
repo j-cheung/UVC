@@ -94,7 +94,7 @@ if let contrast = controls.first(where: { $0.tag == .contrast }) {
 /*  Program output :
 
 [{
-    AppleUSBAlternateServiceRegistryID = 4294968143;
+    AppleUSBAlternateServiceRegistryID = 4295005994;
     "Built-In" = 0;
     "Bus Power Available" = 250;
     "Device Speed" = 2;
@@ -111,7 +111,7 @@ if let contrast = controls.first(where: { $0.tag == .contrast }) {
         MaxPowerState = 4;
     };
     PortNum = 1;
-    "USB Address" = 3;
+    "USB Address" = 4;
     "USB Product Name" = "HD USB Camera";
     "USB Vendor Name" = "HD USB Camera";
     bDeviceClass = 239;
@@ -131,79 +131,79 @@ if let contrast = controls.first(where: { $0.tag == .contrast }) {
     kUSBVendorString = "HD USB Camera";
     locationID = 336592896;
     "non-removable" = no;
-    sessionID = 1826016032;
+    sessionID = 132596910571176;
 }]
 01, 02, 03, 04, 05, 06, 07, 08, 09, 0a, 0b
 02, 03, 04
 -> Backlight Compensation 
-fam: camera, index: 01, type: int 
-resolution: 1 min:  0, max: 2, default: 1, current: 1 
-inf : 00000011
+fam: camera, index: 0x01, type: int 
+resolution: 1, min: 0, max: 2, default: 1, current: 1 
+inf : 0b00000011
 
 -> Brightness 
-fam: camera, index: 02, type: int 
-resolution: 1 min:  -64, max: 64, default: 0, current: 0 
-inf : 00000011
+fam: camera, index: 0x02, type: int 
+resolution: 1, min: -64, max: 64, default: 0, current: 0 
+inf : 0b00000011
 
 -> Contrast 
-fam: camera, index: 03, type: int 
-resolution: 1 min:  0, max: 64, default: 32, current: 32 
-inf : 00000011
+fam: camera, index: 0x03, type: int 
+resolution: 1, min: 0, max: 64, default: 32, current: 32 
+inf : 0b00000011
 
 -> Gain 
-fam: camera, index: 04, type: int 
-resolution: 1 min:  0, max: 100, default: 0, current: 0 
-inf : 00000011
+fam: camera, index: 0x04, type: int 
+resolution: 1, min: 0, max: 100, default: 0, current: 0 
+inf : 0b00000011
 
 -> Powerline Frequency 
-fam: camera, index: 05, type: option 
-resolution: 1 min:  0, max: 2, default: 1, current: 1 
-inf : 00000011
+fam: camera, index: 0x05, type: option 
+resolution: 1, min: 0, max: 2, default: 1, current: 1 
+inf : 0b00000011
 
 -> Hue 
-fam: camera, index: 06, type: int 
-resolution: 1 min:  -40, max: 40, default: 0, current: 0 
-inf : 00000011
+fam: camera, index: 0x06, type: int 
+resolution: 1, min: -40, max: 40, default: 0, current: 0 
+inf : 0b00000011
 
 -> Saturation 
-fam: camera, index: 07, type: int 
-resolution: 1 min:  0, max: 128, default: 60, current: 60 
-inf : 00000011
+fam: camera, index: 0x07, type: int 
+resolution: 1, min: 0, max: 128, default: 60, current: 60 
+inf : 0b00000011
 
 -> Sharpness 
-fam: camera, index: 08, type: int 
-resolution: 1 min:  0, max: 6, default: 2, current: 2 
-inf : 00000011
+fam: camera, index: 0x08, type: int 
+resolution: 1, min: 0, max: 6, default: 2, current: 2 
+inf : 0b00000011
 
 -> Gamma 
-fam: camera, index: 09, type: int 
-resolution: 1 min:  72, max: 500, default: 100, current: 100 
-inf : 00000011
+fam: camera, index: 0x09, type: int 
+resolution: 1, min: 72, max: 500, default: 100, current: 100 
+inf : 0b00000011
 
 -> White Balance Temp 
-fam: camera, index: 0a, type: int 
-resolution: 1 min:  2800, max: 6500, default: 4600, current: 3604 
-inf : 00001111
+fam: camera, index: 0x0a, type: int 
+resolution: 1, min: 2800, max: 6500, default: 4600, current: 3604 
+inf : 0b00001111
 
 -> White Bal Temp Auto 
-fam: camera, index: 0b, type: bool 
-resolution: _ min:  _, max: _, default: 1, current: 1 
-inf : 00000011
+fam: camera, index: 0x0b, type: bool 
+resolution: _, min: _, max: _, default: 1, current: 1 
+inf : 0b00000011
 
 -> AE Mode 
-fam: camera, index: 02, type: bitmap 
-resolution: 9 min:  _, max: _, default: 8, current: 8 
-inf : 00000011
+fam: camera, index: 0x02, type: bitmap 
+resolution: 9, min: _, max: _, default: 8, current: 8 
+inf : 0b00000011
 
 -> AE Priorty 
-fam: camera, index: 03, type: bool 
-resolution: _ min:  _, max: _, default: _, current: 1 
-inf : 00000011
+fam: camera, index: 0x03, type: bool 
+resolution: _, min: _, max: _, default: _, current: 0 
+inf : 0b00000011
 
 -> Exposure Time 
-fam: camera, index: 04, type: int 
-resolution: 1 min:  1, max: 5000, default: 157, current: 376 
-inf : 00001111
+fam: camera, index: 0x04, type: int 
+resolution: 1, min: 1, max: 5000, default: 157, current: 376 
+inf : 0b00001111
 
 32
 
