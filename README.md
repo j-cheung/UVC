@@ -1,4 +1,4 @@
-# UVC
+# USB Video Camera Standard Package for Swift
 
 Under Development code for working with UVC compliant webcams in swift.
 
