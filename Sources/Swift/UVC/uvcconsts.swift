@@ -73,7 +73,7 @@ extension UVC {
       case digi_mult_limit          = 0x0F
       case hue_auto                 = 0x10
       case analogue_vid_std         = 0x11
-      case ablogue_lock             = 0x12
+      case analogue_lock            = 0x12
       case contrast_auto            = 0x13
     }
 
@@ -134,7 +134,7 @@ extension UVC {
       case digi_mult_limit
       case hue_auto
       case analogue_vid_std
-      case ablogue_lock
+      case analogue_lock
       case contrast_auto            
       
       // input terminal
