@@ -4,15 +4,19 @@ Under Development code for working with UVC compliant webcams in swift.
 
 USB via IOKit and its *lovely* **COM** implementation. 
 
-The only controls currently implemented are the ones I have to test, see below for list output.
 
 All controls are modeled as Int at the interface, they are properly signed, so
 e.g. we can set brightness to -12 and not have to worry about it, conversion to and from
 various widths of UInt and Int is done under the hood. You can't crash it by trying to set
 a an underlying UInt8 control to -32,768 because it will clamp the range to 0.
 
+Digital Window and Region of Interest are currently not supported because they are too big
+to fit this model (swift is yet to expose 128 bit integer types) 
+
 Your front end code will need to know that, e.g. Auto controls are a bool, Powerline Frequency is an option or 
 that Auto Exposure mode is a bitmap, and translate them to and from Int accordingly.
+
+This *will* change in later versions of this package as I push up to UI and then refactor back down again.
 
 You probably can cause problems by setting values outside of the control's GET_MIN and GET_MAX
 values, but these should theoretically just cause pipe stall errors, which you aren't going to see
