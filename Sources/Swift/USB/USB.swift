@@ -35,13 +35,18 @@ public struct USB {
   
   public func queryInterface<T> ( _ params: QueryParams<T>, for object: io_object_t ) -> COMObject<T>? {
     
-    var pluginptr: UnsafeMutablePointer<UnsafeMutablePointer<IOCFPlugInInterface>?>?
-    var score    : Int32 = 0
+    var pluginPtr : UnsafeMutablePointer<UnsafeMutablePointer<IOCFPlugInInterface>?>?
+    var score     : Int32 = 0
     
     // first we create the plugin, thats the easy bit
-    IOCreatePlugInInterfaceForService ( object, params.plug, kIOCFPlugInInterfaceID, &pluginptr, &score )
+    IOCreatePlugInInterfaceForService ( object, params.plug, kIOCFPlugInInterfaceID, &pluginPtr, &score )
     
-    guard let plugin = pluginptr?.pointee?.pointee else { return nil }
+    // ditch it when we exit
+    defer {
+      IODestroyPlugInInterface(pluginPtr)
+    }
+    
+    guard let plugin = pluginPtr?.pointee?.pointee else { return nil }
     
     
     // the type for our interface is actually UnsafeMutablePointer<UnsafeMutablePointer<T>?>?,
@@ -69,7 +74,7 @@ public struct USB {
         // now do the call
         
         plugin.QueryInterface (
-          pluginptr,
+          pluginPtr,
           CFUUIDGetUUIDBytes ( params.iface ),
           lpvoid
         )

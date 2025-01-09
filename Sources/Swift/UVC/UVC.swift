@@ -36,28 +36,28 @@ public struct UVC {
   
     func probeInterfaces(device: io_object_t ) -> (interface: USB.COMObject<IOUSBInterfaceInterface>, device: USB.COMObject<IOUSBDeviceInterface>)? {
         
-        //TODO: lifecycle management
       
         // get a device interface
         guard let deviceInterface = usb.queryInterface( .device, for: device ) else { return nil }
         
-      
         /*
-         obtain an IOIterator that we can use to loop over the device's interfaces
-         remember the IOIterator objects are just opaque handles (most of this stuff
-         is just typealias to Int32)
+          obtain an IOIterator that we can use to loop over the device's interfaces
+          remember the IOIterator objects are just opaque handles (most of this stuff
+          is just typealias to Int32), here we wrap it agaim  (see IOIterator.swift) for
+          lifecyle management and slightly nicer semantics
         */
+    
+        var iterator  = IOIterator( io_iterator_t() )
+        var request   = USB.findInterfaceRequest ( iclass: InterfaceClass.CC_VIDEO )
         
-        var interface: io_iterator_t = 0
-        var request  : IOUSBFindInterfaceRequest = USB.findInterfaceRequest ( iclass: InterfaceClass.CC_VIDEO )
-        
-        _ = deviceInterface.instance.CreateInterfaceIterator ( deviceInterface.pointer, &request, &interface )
+        /*
+          note again I'm splatting the return, if this fails, the iterator will be IO_ITERATOR_NULL (0)
+          and we'll return nil
+        */
+        _ = deviceInterface.instance.CreateInterfaceIterator ( deviceInterface.pointer, &request, &iterator.opaque )
       
       
-        var candidiate = IOIteratorNext(interface)
-        
-        while candidiate != 0 {
-          
+        while let candidiate = iterator.next() {
           
           // get a COM object representing the actual interface
           
@@ -74,7 +74,6 @@ public struct UVC {
             if iclass == InterfaceClass.CC_VIDEO && isub == InterfaceClass.SC_VIDEOCONTROL { return (interface, deviceInterface)  }
           }
           
-          candidiate = IOIteratorNext(interface)
         }
 
         return nil

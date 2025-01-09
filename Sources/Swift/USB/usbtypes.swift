@@ -2,6 +2,8 @@
 
 import Foundation
 
+
+
 extension USB {
   
   /*
@@ -32,28 +34,4 @@ extension USB {
     static var interface : QueryParams<IOUSBInterfaceInterface> { QueryParams<IOUSBInterfaceInterface> (plug: kIOUSBInterfaceUserClientTypeID, iface: kIOUSBInterfaceInterfaceID) }
   }
   
-
-  /*
-    wrap IOIterator for slightly nicer call site
-    written to avoid an aesthetically unpleasing pattern,
-    probably unwise, but we'll see
-  */
-
-  struct IOIterator {
-    
-    let iterator : io_iterator_t
-
-    init(_ iterator: io_iterator_t) { self.iterator = iterator }
-
-    func next() -> io_object_t? {
-      let object = IOIteratorNext(iterator)
-      defer {
-        if object == IO_OBJECT_NULL {
-          IOObjectRelease(iterator)
-        }
-      }
-      return object == IO_OBJECT_NULL ? nil : object
-    }
-
-  }
 }
