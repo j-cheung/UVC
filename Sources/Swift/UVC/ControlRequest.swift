@@ -33,7 +33,8 @@ extension UVC {
       only 2 are signed, both Int16, none of them are larger than an Int32 (in fact only one,
       Exposure Time Absolute) is even that big. Even the multi byte 8 and 12 will fit into
       Int64 (== Int) and Int128. Honestly the only reason not to just have Int128 and be done
-      is that it feels inelegant.
+      is that it feels inelegant. (edit to add : and also, swift doesn't actually expose 128 bit
+      integer types in the API even though it has them, hmm)
      
       I'll add proper multi byte support later and these will redirect via the underlying mechanism,
       but for now, it goes like this :
