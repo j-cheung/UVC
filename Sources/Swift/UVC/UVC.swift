@@ -256,20 +256,25 @@ public struct UVC {
       
       switch selindex {
         
-        case .backlight_comp      : return control ( name: "Backlight Compensation", type: UInt16.self, uvctype: .int    , tag: .backlight_comp     )
-        case .brightness          : return control ( name: "Brightness",             type: Int16.self , uvctype: .int    , tag: .brightness         )
-        case .contrast            : return control ( name: "Contrast",               type: UInt16.self, uvctype: .int    , tag: .contrast           )
-        case .gain                : return control ( name: "Gain",                   type: UInt16.self, uvctype: .int    , tag: .gain               )
-        case .power_line_freq     : return control ( name: "Powerline Frequency",    type: UInt8.self,  uvctype: .option , tag: .power_line_freq    )
-        case .hue                 : return control ( name: "Hue",                    type: Int16.self , uvctype: .int    , tag: .hue                )
-        case .saturation          : return control ( name: "Saturation",             type: UInt16.self, uvctype: .int    , tag: .saturation         )
-        case .sharpness           : return control ( name: "Sharpness",              type: UInt16.self, uvctype: .int    , tag: .sharpness          )
-        case .gamma               : return control ( name: "Gamma",                  type: UInt16.self, uvctype: .int    , tag: .gamma              )
-        case .white_bal_temp      : return control ( name: "White Balance Temp",     type: UInt16.self, uvctype: .int    , tag: .white_bal_temp     )
-        case .white_bal_temp_auto : return control ( name: "White Bal Temp Auto",    type: UInt8.self , uvctype: .bool   , tag: .white_bal_temp_auto)
-        
-        
-        default: return nil
+        case .backlight_comp           : return control ( name: "Backlight Compensation",   type: UInt16.self, uvctype: .int,       tag: .backlight_comp            )
+        case .brightness               : return control ( name: "Brightness",               type: Int16.self , uvctype: .int,       tag: .brightness                )
+        case .contrast                 : return control ( name: "Contrast",                 type: UInt16.self, uvctype: .int,       tag: .contrast                  )
+        case .gain                     : return control ( name: "Gain",                     type: UInt16.self, uvctype: .int,       tag: .gain                      )
+        case .power_line_freq          : return control ( name: "Powerline Frequency",      type: UInt8.self,  uvctype: .option,    tag: .power_line_freq           )
+        case .hue                      : return control ( name: "Hue",                      type: Int16.self , uvctype: .int,       tag: .hue                       )
+        case .saturation               : return control ( name: "Saturation",               type: UInt16.self, uvctype: .int,       tag: .saturation                )
+        case .sharpness                : return control ( name: "Sharpness",                type: UInt16.self, uvctype: .int,       tag: .sharpness                 )
+        case .gamma                    : return control ( name: "Gamma",                    type: UInt16.self, uvctype: .int,       tag: .gamma                     )
+        case .white_bal_temp           : return control ( name: "White Balance Temp",       type: UInt16.self, uvctype: .int,       tag: .white_bal_temp            )
+        case .white_bal_temp_auto      : return control ( name: "White Bal Temp Auto",      type: UInt8.self , uvctype: .bool,      tag: .white_bal_temp_auto       )
+        case .white_bal_component      : return control ( name: "White Bal Component",      type: UInt32.self, uvctype: .multibyte, tag: .white_bal_component       )
+        case .white_bal_component_auto : return control ( name: "White Bal Component Auto", type: UInt8.self,  uvctype: .bool,      tag : .white_bal_component_auto )
+        case .digi_mult                : return control ( name: "Digital Multiplier",       type: UInt16.self, uvctype: .int,       tag: .digi_mult                 )
+        case .digi_mult_limit          : return control ( name: "Digital Multiplier Limit", type: UInt16.self, uvctype: .int,       tag: .digi_mult_limit           )
+        case .hue_auto                 : return control ( name: "Hue Auto",                 type: UInt8.self,  uvctype: .bool,      tag: .hue_auto                  )
+        case .analogue_vid_std         : return control ( name: "Analogue Video Standard",  type: UInt8.self,  uvctype: .int,       tag: .analogue_vid_std          )
+        case .analogue_lock            : return control ( name: "Analogue Lock",            type: UInt8.self,  uvctype: .int,       tag: .analogue_lock             )
+        case .contrast_auto            : return control ( name: "Contrast Auto",            type: UInt8.self,  uvctype: .int,       tag: .contrast_auto             )
       }
     }
   }
@@ -298,12 +303,34 @@ public struct UVC {
       guard let selindex = UVC.CTControlIndex(rawValue: index) else { return nil }
       
       switch selindex {
+        case .scan_mode    : return control ( name: "Scanning Mode",        type: UInt8.self,  uvctype: .option,    tag: .scan_mode    )
+        case .ae_mode      : return control ( name: "AE Mode",              type: UInt8.self,  uvctype: .bitmap,    tag: .ae_mode      )
+        case .ae_priority  : return control ( name: "AE Priorty",           type: UInt8.self,  uvctype: .bool,      tag: .ae_priority  )
+        case .exp_time_abs : return control ( name: "Exposure Time (abs)",  type: UInt32.self, uvctype: .int,       tag: .exp_time_abs )
+        case .exp_time_rel : return control ( name: "Exposure Time (rel)",  type: UInt8.self,  uvctype: .int,       tag: .exp_time_rel )
+        case .focus_abs    : return control ( name: "Focus (abs)",          type: UInt16.self, uvctype: .int,       tag: .focus_abs    )
+        case .focus_rel    : return control ( name: "Focus (rel)",          type: UInt16.self, uvctype: .multibyte, tag: .focus_rel    )
+        case .focus_auto   : return control ( name: "Focus Auto",           type: UInt8.self,  uvctype: .bool,      tag: .focus_auto   )
+        case .iris_abs     : return control ( name: "Iris (abs)",           type: UInt16.self, uvctype: .int,       tag: .iris_abs     )
+        case .iris_rel     : return control ( name: "Iris (rel)",           type: UInt8.self,  uvctype: .int,       tag: .iris_rel     )
+        case .zoom_abs     : return control ( name: "Zoom (abs)",           type: UInt16.self, uvctype: .int,       tag: .zoom_abs     )
+        case .zoom_rel     : return control ( name: "Zoom (rel)",           type: UInt16.self, uvctype: .multibyte, tag: .zoom_rel     )
+        case .pantilt_abs  : return control ( name: "Pan/Tilt (abs)",       type: UInt64.self, uvctype: .multibyte, tag: .pantilt_abs  )
+        case .pantilt_rel  : return control ( name: "Pan/Tilt (rel)",       type: UInt32.self, uvctype: .multibyte, tag: .pantilt_rel  )
+        case .roll_abs     : return control ( name: "Roll (abs)",           type: UInt16.self, uvctype: .int,       tag: .roll_abs     )
+        case .roll_rel     : return control ( name: "Roll (rel)",           type: UInt16.self, uvctype: .multibyte, tag: .roll_rel     )
+        case .privacy      : return control ( name: "Privacy",              type: UInt8.self,  uvctype: .bool,      tag: .privacy      )
+        case .focus_simple : return control ( name: "Focus Simple",         type: UInt8.self,  uvctype: .int,       tag: .focus_simple )
         
-        case .ae_mode      : return control ( name: "AE Mode",       type: UInt8.self , uvctype: .bitmap, tag: .ae_mode      )
-        case .ae_priority  : return control ( name: "AE Priorty",    type: UInt8.self , uvctype: .bool  , tag: .ae_priority  )
-        case .exp_time_abs : return control ( name: "Exposure Time", type: UInt32.self, uvctype: .int   , tag: .exp_time_abs )
+        /*
+          aaand, that's where we stop, b/c a) swift doesnt actually expose a [U]Int128
+                                           b) it wouldn't really fit this model anyway, come back in a bit
+          case .window
+          case .roi
+        */
         
-        default : return nil
+        case .window, .roi : fatalError("Apologies, Digital Window and ROI not impelmented yet, come back in a bit, I will get to them. I gotchu fam x")
+
       }
     }
   }
