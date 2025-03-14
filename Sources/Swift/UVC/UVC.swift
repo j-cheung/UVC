@@ -329,7 +329,8 @@ public struct UVC {
           case .roi
         */
         
-        case .window, .roi : fatalError("Apologies, Digital Window and ROI not impelmented yet, come back in a bit, I will get to them. I gotchu fam x")
+        // case .window, .roi : fatalError("Apologies, Digital Window and ROI not impelmented yet, come back in a bit, I will get to them. I gotchu fam x")
+        case .window, .row: return nil
 
       }
     }
