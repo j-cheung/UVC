@@ -330,7 +330,7 @@ public struct UVC {
         */
         
         // case .window, .roi : fatalError("Apologies, Digital Window and ROI not impelmented yet, come back in a bit, I will get to them. I gotchu fam x")
-        case .window, .row: return nil
+        case .window, .roi: return nil
 
       }
     }
